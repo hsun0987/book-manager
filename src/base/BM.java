@@ -12,6 +12,7 @@ public class BM extends BookManager {
 
     @Override
     public void addBook(Book book) {
+
         bookList.add(book);
         System.out.println("--- 도서 [" + book.getName() +  "] 등록이 완료되었습니다. ---");
     }
@@ -36,13 +37,12 @@ public class BM extends BookManager {
 
     @Override
     public void updateBook(Book book) {
-       /*for (Book b: bookList){
+      /*  for (Book b: bookList){
             if(book.getId().equals(bookList.))
                 userInput = 1;
-        }
+        }*/
 
-      bookList.indexOf(book).setId(book.getId());
-       */
+      // bookList.indexOf(book).setId(book.getId());
     }
 
     @Override
