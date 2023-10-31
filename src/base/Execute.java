@@ -50,7 +50,12 @@ public class Execute {
 
     private static void deleteBook() {
         // System.out.println("삭제 메서드 실행");
-        // bm.removeBook(?);
+
+        System.out.println("삭제하고자 하는 도서번호를 입력해주세요");
+        System.out.print("선택 >> ");
+        Long id = Long.parseLong(sc.nextLine());
+
+        bm.removeBook(id);
     }
 
     private static void updateBook() {
