@@ -9,17 +9,21 @@ public class Book {
     private Long isbn;
     private LocalDate publishedDate;
 
-    public Book(Long id, String name, String author, Long isbn, LocalDate publishedDate) {
+    private int bookType;
+
+    //Book ebook = new EBook();
+    //Book audiobook = new AudioBook();
+
+    public Book(Long id, String name, String author, Long isbn, LocalDate publishedDate,int bookType) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.isbn = isbn;
         this.publishedDate = publishedDate;
+        this.bookType = bookType;
     }
 
-    public Book() {
-
-    }
+    public Book() { }
 
     public Long getId() {
         return id;
@@ -37,9 +41,7 @@ public class Book {
         this.name = name;
     }
 
-    public String getAuthor() {
-        return author;
-    }
+    public String getAuthor() { return author; }
 
     public void setAuthor(String author) {
         this.author = author;
@@ -60,4 +62,10 @@ public class Book {
     public void setPublishedDate(LocalDate publishedDate) {
         this.publishedDate = publishedDate;
     }
+
+    public int getBookType() { return bookType; }
+
+    public void setBookType(int bookType) { this.bookType = bookType; }
+
+
 }

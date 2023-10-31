@@ -5,9 +5,11 @@ import java.time.LocalDate;
 public class EBook extends Book{
     String filesize;
 
-    EBook(Long id, String name, String author, Long isbn, LocalDate publishedDate, String filesize){
-       super(id, name, author, isbn, publishedDate);
-       this.filesize = filesize;
+    EBook(){};
+
+    EBook(Long id, String name, String author, Long isbn, LocalDate publishedDate, String filesize, int bookType){
+        super(id, name, author, isbn, publishedDate,bookType);
+        this.filesize = filesize;
     }
 
     public String getFilesize() {
