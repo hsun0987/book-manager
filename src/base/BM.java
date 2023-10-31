@@ -64,7 +64,7 @@ public class BM extends BookManager {
         // 2. 도서를 등록한다.
         // 사서를 통해 도서 저장 요청
 
-        String[] bookInfo = new String[5];
+        String[] bookInfo = new String[9];
         System.out.print("id: ");
         bookInfo[0] = sc.nextLine();
         System.out.print("제목: ");
@@ -75,14 +75,44 @@ public class BM extends BookManager {
         bookInfo[3] = sc.nextLine();
         System.out.print("출판일(YYYY-MM-DD): ");
         bookInfo[4] = sc.nextLine();
+        System.out.print("파일 크기: ");
+        bookInfo[5] = sc.nextLine();
+        System.out.print("언어: ");
+        bookInfo[6] = sc.nextLine();
+        System.out.print("실행시간: ");
+        bookInfo[7] = sc.nextLine();
+        System.out.print("책 종류(book, ebook, audio) : ");
+        bookInfo[8] = sc.nextLine();
 
-        // book을 저장소에 저장
-        Book book = new Book(Long.parseLong(bookInfo[0]),
-                bookInfo[1],
-                bookInfo[2],
-                Long.parseLong(bookInfo[3]),
-                LocalDate.parse(bookInfo[4]));
-        bookList.add(book);
+
+        if (bookInfo[8].equals("book")) {
+            // book을 저장소에 저장
+            Book book = new Book(Long.parseLong(bookInfo[0]),
+                    bookInfo[1],
+                    bookInfo[2],
+                    Long.parseLong(bookInfo[3]),
+                    LocalDate.parse(bookInfo[4]));
+            bookList.add(book);
+        } else if (bookInfo[8].equals("ebook")) {
+            Book eBook = new EBook(Long.parseLong(bookInfo[0]),
+                    bookInfo[1],
+                    bookInfo[2],
+                    Long.parseLong(bookInfo[3]),
+                    LocalDate.parse(bookInfo[4]),
+                    bookInfo[5]);
+            bookList.add(eBook);
+        } else if (bookInfo[8].equals("audio")) {
+            Book audioBook = new AudioBook(Long.parseLong(bookInfo[0]),
+                    bookInfo[1],
+                    bookInfo[2],
+                    Long.parseLong(bookInfo[3]),
+                    LocalDate.parse(bookInfo[4]),
+                    bookInfo[5],
+                    bookInfo[6],
+                    Integer.parseInt(bookInfo[7]));
+            bookList.add(audioBook);
+        }else
+            System.out.print("책 종류에 해당하지 않습니다.");
     }
 
     @Override
