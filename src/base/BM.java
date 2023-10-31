@@ -29,6 +29,7 @@ public class BM extends BookManager {
             System.out.print("선택 >> ");
             String userInput = sc.nextLine();
 
+
             switch (userInput) {
                 case "1":
                     // 조회
@@ -57,14 +58,19 @@ public class BM extends BookManager {
 
     @Override
     public void addBook() {
-        System.out.println("등록 메서드 실행");
+        // System.out.println("등록 메서드 실행");
         // 1. 콘솔화면을 통해 사용자로부터 도서정보를 입력을 받는다.
         // id, 제목, 저자, isbn, 출판일 (5가지) (v)
         // 위의 정보로 책 객체를 생성한다. (v)
         // 2. 도서를 등록한다.
         // 사서를 통해 도서 저장 요청
+        System.out.println("등록할 책의 종류를 선택해주세요.");
+        System.out.println("(1)Book");
+        System.out.println("(2)EBook");
+        System.out.println("(3)AudioBook");
+        int bookType = Integer.parseInt(sc.nextLine());
 
-        String[] bookInfo = new String[9];
+        String[] bookInfo = new String[8];
         System.out.print("id: ");
         bookInfo[0] = sc.nextLine();
         System.out.print("제목: ");
@@ -81,11 +87,9 @@ public class BM extends BookManager {
         bookInfo[6] = sc.nextLine();
         System.out.print("실행시간: ");
         bookInfo[7] = sc.nextLine();
-        System.out.print("책 종류(book, ebook, audio) : ");
-        bookInfo[8] = sc.nextLine();
 
 
-        if (bookInfo[8].equals("book")) {
+        if (bookType == 1) {
             // book을 저장소에 저장
             Book book = new Book(Long.parseLong(bookInfo[0]),
                     bookInfo[1],
@@ -93,7 +97,7 @@ public class BM extends BookManager {
                     Long.parseLong(bookInfo[3]),
                     LocalDate.parse(bookInfo[4]));
             bookList.add(book);
-        } else if (bookInfo[8].equals("ebook")) {
+        } else if (bookType == 2) {
             Book eBook = new EBook(Long.parseLong(bookInfo[0]),
                     bookInfo[1],
                     bookInfo[2],
@@ -101,7 +105,7 @@ public class BM extends BookManager {
                     LocalDate.parse(bookInfo[4]),
                     bookInfo[5]);
             bookList.add(eBook);
-        } else if (bookInfo[8].equals("audio")) {
+        } else if (bookType == 3) {
             Book audioBook = new AudioBook(Long.parseLong(bookInfo[0]),
                     bookInfo[1],
                     bookInfo[2],
@@ -133,6 +137,7 @@ public class BM extends BookManager {
         }
     }
 
+
     @Override
     public void updateBook() {
 
@@ -154,7 +159,7 @@ public class BM extends BookManager {
             return;
         }
         // 책이 존재할 때
-        String[] bookInfo = new String[5];
+        String[] bookInfo = new String[9];
         bookInfo[0] = id;
         System.out.println("[수정 정보를 입력해주세요]");
         System.out.print("제목: ");
@@ -165,11 +170,26 @@ public class BM extends BookManager {
         bookInfo[3] = sc.nextLine();
         System.out.print("출판일(YYYY-MM-DD): ");
         bookInfo[4] = sc.nextLine();
+        System.out.print("파일 크기: ");
+        bookInfo[5] = sc.nextLine();
+        System.out.print("언어: ");
+        bookInfo[6] = sc.nextLine();
+        System.out.print("실행시간: ");
+        bookInfo[7] = sc.nextLine();
+        System.out.print("책 종류(book, ebook, audio) : ");
+        bookInfo[8] = sc.nextLine();
 
-        book.setName(bookInfo[1]);
-        book.setAuthor(bookInfo[2]);
-        book.setIsbn(Long.parseLong(bookInfo[3]));
-        book.setPublishedDate(LocalDate.parse(bookInfo[4]));
+        for (Book b : bookList) {
+            if (book.getId().equals(b.getId())) {
+                b.setName(book.getName());
+                b.setAuthor(book.getAuthor());
+                b.setIsbn(book.getIsbn());
+                b.setPublishedDate(book.getPublishedDate());
+
+            }
+        }
+
+        System.out.println("수정한 도서 정보가 반영되었습니다.");
     }
 
     @Override
