@@ -11,9 +11,6 @@ public class Book {
 
     private int bookType;
 
-    //Book ebook = new EBook();
-    //Book audiobook = new AudioBook();
-
     public Book(Long id, String name, String author, Long isbn, LocalDate publishedDate,int bookType) {
         this.id = id;
         this.name = name;

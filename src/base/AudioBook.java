@@ -7,8 +7,6 @@ public class AudioBook extends Book{
     String language;
     int playTime;
 
-    AudioBook(){};
-
     AudioBook(Long id, String name, String author, Long isbn, LocalDate publishedDate, String filesize, String language, int playTime, int bookType){
         super(id, name, author, isbn, publishedDate, bookType);
         this.filesize = filesize;
