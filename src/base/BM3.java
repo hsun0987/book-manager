@@ -1,8 +1,7 @@
 package base;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 // BookManager를 구현하는 구현 객체
 public class BM3 extends BookManager {
@@ -35,7 +34,9 @@ public class BM3 extends BookManager {
                     // 조회
                     System.out.println("1. 전체 조회");
                     System.out.println("2. 책 제목 조회");
-                    System.out.println("3. 출간일 기간 조회");
+                    System.out.println("3. 책 제목순 정렬");
+                    System.out.println("4. 출간일 기간 조회");
+                    System.out.println("5. 출간일 기간순 정렬");
                     System.out.print("선택 >> ");
                     String op = sc.nextLine();
 
@@ -47,7 +48,13 @@ public class BM3 extends BookManager {
                             printBookName();
                             break;
                         case "3":
+                            bookNameSort();
+                            break;
+                        case "4":
                             printPublishedDate();
+                            break;
+                        case "5":
+                            dateSort();
                             break;
                     }
                     break;
@@ -165,14 +172,10 @@ public class BM3 extends BookManager {
             System.out.print(book.getIsbn());
             System.out.print(", ");
             System.out.print(book.getPublishedDate());
-            System.out.print(", ");
-            System.out.print(book.getPublishedDate());
             if (book.getBookType() == 2 ){
-                System.out.print(", ");
                 System.out.print(((EBook)book).getFilesize());
             }
             if(book.getBookType() == 3){
-                System.out.print(", ");
                 System.out.print(((AudioBook)book).getFilesize());
                 System.out.print(", ");
                 System.out.print(((AudioBook)book).getLanguage());
@@ -199,14 +202,10 @@ public class BM3 extends BookManager {
                 System.out.print(book.getIsbn());
                 System.out.print(", ");
                 System.out.print(book.getPublishedDate());
-                System.out.print(", ");
-                System.out.print(book.getPublishedDate());
                 if (book.getBookType() == 2 ){
-                    System.out.print(", ");
                     System.out.print(((EBook)book).getFilesize());
                 }
                 if(book.getBookType() == 3){
-                    System.out.print(", ");
                     System.out.print(((AudioBook)book).getFilesize());
                     System.out.print(", ");
                     System.out.print(((AudioBook)book).getLanguage());
@@ -218,22 +217,34 @@ public class BM3 extends BookManager {
             }
         }
     }
-/*
-    static void swap(ArrayList a, int i1, int i2){
-        int temp = a.indexOf(i1);
-        a.indexOf(i1) = a.indexOf(i2);
-        a.indexOf(i2) = temp;
+
+    class NameComparator implements Comparator<Book> {
+        @Override
+        public int compare(Book o1, Book o2) {
+            if (o1.getName().indexOf(0) > o2.getName().indexOf(0)) return 1;
+            if (o1.getName().indexOf(0) < o2.getName().indexOf(0)) return -1;
+            return 0;
+        }
     }
 
-    public void printSort(String bookName){
-        for (int i = 0; i < bookList.size() - 1; i++) {
-            for (int j = bookList.size() - 1; j > i ; j--){
-                if(bookList.indexOf(j - 1) > bookList.indexOf(j))
-                    swap(bookList, j-1, j);
-            }
-
+    class DateComparator implements Comparator<Book> {
+        @Override
+        public int compare(Book o1, Book o2) {
+            if (o1.getPublishedDate().isAfter(o2.getPublishedDate())) return 1;
+            if (o1.getPublishedDate().isBefore(o2.getPublishedDate())) return -1;
+            return 0;
         }
-    }*/
+    }
+
+    public void bookNameSort(){
+        Collections.sort(bookList, new NameComparator());
+        printAllBook();
+    }
+
+    public void dateSort(){ // 출간일 정렬
+        Collections.sort(bookList, new DateComparator());
+        printAllBook();
+    }
 
     public void printPublishedDate(){
         System.out.print("조회 시작일 : ");
@@ -253,14 +264,10 @@ public class BM3 extends BookManager {
                 System.out.print(book.getIsbn());
                 System.out.print(", ");
                 System.out.print(book.getPublishedDate());
-                System.out.print(", ");
-                System.out.print(book.getPublishedDate());
                 if (book.getBookType() == 2 ){
-                    System.out.print(", ");
                     System.out.print(((EBook)book).getFilesize());
                 }
                 if(book.getBookType() == 3){
-                    System.out.print(", ");
                     System.out.print(((AudioBook)book).getFilesize());
                     System.out.print(", ");
                     System.out.print(((AudioBook)book).getLanguage());
