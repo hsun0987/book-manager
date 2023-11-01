@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 // BookManager를 구현하는 구현 객체
-public class BM2 extends BookManager {
+public class BM3 extends BookManager {
 
     private ArrayList<Book> bookList = new ArrayList<>();
     static Scanner sc = new Scanner(System.in);
@@ -84,6 +84,12 @@ public class BM2 extends BookManager {
         bookInfo[3] = sc.nextLine();
         System.out.print("출판일(YYYY-MM-DD): ");
         bookInfo[4] = sc.nextLine();
+        System.out.print("파일 크기: ");
+        bookInfo[5] = sc.nextLine();
+        System.out.print("언어: ");
+        bookInfo[6] = sc.nextLine();
+        System.out.print("실행시간: ");
+        bookInfo[7] = sc.nextLine();
 
         if (bookType == 1) {
             // book을 저장소에 저장
@@ -95,9 +101,6 @@ public class BM2 extends BookManager {
                     bookType);
             bookList.add(book);
         } else if (bookType == 2) {
-            // ebook을 저장소에 저장
-            System.out.print("파일 크기: ");
-            bookInfo[5] = sc.nextLine();
             Book eBook = new EBook(Long.parseLong(bookInfo[0]),
                     bookInfo[1],
                     bookInfo[2],
@@ -107,14 +110,6 @@ public class BM2 extends BookManager {
                     bookType);
             bookList.add(eBook);
         } else if (bookType == 3) {
-            // audiobook을 저장소에 저장
-            System.out.print("파일 크기: ");
-            bookInfo[5] = sc.nextLine();
-            System.out.print("언어: ");
-            bookInfo[6] = sc.nextLine();
-            System.out.print("실행시간: ");
-            bookInfo[7] = sc.nextLine();
-
             Book audioBook = new AudioBook(Long.parseLong(bookInfo[0]),
                     bookInfo[1],
                     bookInfo[2],
@@ -194,25 +189,21 @@ public class BM2 extends BookManager {
         bookInfo[3] = sc.nextLine();
         System.out.print("출판일(YYYY-MM-DD): ");
         bookInfo[4] = sc.nextLine();
+        System.out.print("파일 크기: ");
+        bookInfo[5] = sc.nextLine();
+        System.out.print("언어: ");
+        bookInfo[6] = sc.nextLine();
+        System.out.print("실행시간: ");
+        bookInfo[7] = sc.nextLine();
 
         book.setName(bookInfo[1]);
         book.setAuthor(bookInfo[2]);
         book.setIsbn(Long.parseLong(bookInfo[3]));
         book.setPublishedDate(LocalDate.parse(bookInfo[4]));
         if (book.getBookType() == 2 ){
-            System.out.print("파일 크기: ");
-            bookInfo[5] = sc.nextLine();
-
             ((EBook)book).setFilesize(bookInfo[5]);
         }
         if(book.getBookType() == 3){
-            System.out.print("파일 크기: ");
-            bookInfo[5] = sc.nextLine();
-            System.out.print("언어: ");
-            bookInfo[6] = sc.nextLine();
-            System.out.print("실행시간: ");
-            bookInfo[7] = sc.nextLine();
-
             ((AudioBook)book).setFilesize(bookInfo[5]);
             ((AudioBook)book).setLanguage(bookInfo[6]);
             ((AudioBook)book).setPlayTime(Integer.parseInt(bookInfo[7]));
