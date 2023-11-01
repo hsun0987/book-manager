@@ -221,17 +221,8 @@ public class BM3 extends BookManager {
     class NameComparator implements Comparator<Book> {
         @Override
         public int compare(Book o1, Book o2) {
-            if (o1.getName().indexOf(0) > o2.getName().indexOf(0)) return 1;
-            if (o1.getName().indexOf(0) < o2.getName().indexOf(0)) return -1;
-            return 0;
-        }
-    }
-
-    class DateComparator implements Comparator<Book> {
-        @Override
-        public int compare(Book o1, Book o2) {
-            if (o1.getPublishedDate().isAfter(o2.getPublishedDate())) return 1;
-            if (o1.getPublishedDate().isBefore(o2.getPublishedDate())) return -1;
+            if (o1.getName().compareTo(o2.getName()) > 0) return 1;
+            if (o1.getName().compareTo(o2.getName()) < 0) return -1;
             return 0;
         }
     }
@@ -241,6 +232,15 @@ public class BM3 extends BookManager {
         printAllBook();
     }
 
+
+    class DateComparator implements Comparator<Book> {
+        @Override
+        public int compare(Book o1, Book o2) {
+            if (o1.getPublishedDate().isAfter(o2.getPublishedDate())) return 1;
+            if (o1.getPublishedDate().isBefore(o2.getPublishedDate())) return -1;
+            return 0;
+        }
+    }
     public void dateSort(){ // 출간일 정렬
         Collections.sort(bookList, new DateComparator());
         printAllBook();
