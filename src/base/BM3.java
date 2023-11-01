@@ -33,7 +33,23 @@ public class BM3 extends BookManager {
             switch (userInput) {
                 case "1":
                     // 조회
-                    printAllBook();
+                    System.out.println("1. 전체 조회");
+                    System.out.println("2. 책 제목 조회");
+                    System.out.println("3. 출간일 기간 조회");
+                    System.out.print("선택 >> ");
+                    String op = sc.nextLine();
+
+                    switch (op){
+                        case "1":
+                            printAllBook();
+                            break;
+                        case "2":
+                            printBookName();
+                            break;
+                        case "3":
+                            printPublishedDate();
+                            break;
+                    }
                     break;
                 case "2":
                     // 등록
@@ -46,6 +62,9 @@ public class BM3 extends BookManager {
                 case "4":
                     // 삭제
                     removeBook();
+                    break;
+                case "5":
+                    printBookName();
                     break;
                 case "q":
                     // 메소드를 종료
@@ -165,6 +184,94 @@ public class BM3 extends BookManager {
         }
     }
 
+    public void printBookName(){
+        System.out.print("책 제목 : ");
+        String bookName = sc.nextLine();
+        for (Book book : bookList) {
+            if(bookName.equals(book.getName())){
+                System.out.print("[");
+                System.out.print(book.getId());
+                System.out.print(", ");
+                System.out.print(book.getName());
+                System.out.print(", ");
+                System.out.print(book.getAuthor());
+                System.out.print(", ");
+                System.out.print(book.getIsbn());
+                System.out.print(", ");
+                System.out.print(book.getPublishedDate());
+                System.out.print(", ");
+                System.out.print(book.getPublishedDate());
+                if (book.getBookType() == 2 ){
+                    System.out.print(", ");
+                    System.out.print(((EBook)book).getFilesize());
+                }
+                if(book.getBookType() == 3){
+                    System.out.print(", ");
+                    System.out.print(((AudioBook)book).getFilesize());
+                    System.out.print(", ");
+                    System.out.print(((AudioBook)book).getLanguage());
+                    System.out.print(", ");
+                    System.out.print(((AudioBook)book).getPlayTime());
+                }
+                System.out.print("]");
+                System.out.println();
+            }
+        }
+    }
+/*
+    static void swap(ArrayList a, int i1, int i2){
+        int temp = a.indexOf(i1);
+        a.indexOf(i1) = a.indexOf(i2);
+        a.indexOf(i2) = temp;
+    }
+
+    public void printSort(String bookName){
+        for (int i = 0; i < bookList.size() - 1; i++) {
+            for (int j = bookList.size() - 1; j > i ; j--){
+                if(bookList.indexOf(j - 1) > bookList.indexOf(j))
+                    swap(bookList, j-1, j);
+            }
+
+        }
+    }*/
+
+    public void printPublishedDate(){
+        System.out.print("조회 시작일 : ");
+        String start = sc.nextLine();
+        System.out.print("조회 종료일 : ");
+        String end = sc.nextLine();
+
+        for (Book book : bookList) {
+            if(book.getPublishedDate().isAfter(LocalDate.parse(start))  &&  book.getPublishedDate().isBefore(LocalDate.parse(end))){
+                System.out.print("[");
+                System.out.print(book.getId());
+                System.out.print(", ");
+                System.out.print(book.getName());
+                System.out.print(", ");
+                System.out.print(book.getAuthor());
+                System.out.print(", ");
+                System.out.print(book.getIsbn());
+                System.out.print(", ");
+                System.out.print(book.getPublishedDate());
+                System.out.print(", ");
+                System.out.print(book.getPublishedDate());
+                if (book.getBookType() == 2 ){
+                    System.out.print(", ");
+                    System.out.print(((EBook)book).getFilesize());
+                }
+                if(book.getBookType() == 3){
+                    System.out.print(", ");
+                    System.out.print(((AudioBook)book).getFilesize());
+                    System.out.print(", ");
+                    System.out.print(((AudioBook)book).getLanguage());
+                    System.out.print(", ");
+                    System.out.print(((AudioBook)book).getPlayTime());
+                }
+                System.out.print("]");
+                System.out.println();
+            }
+        }
+    }
 
     @Override
     public void updateBook() {
