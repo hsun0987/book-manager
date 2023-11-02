@@ -142,8 +142,6 @@ public class BM2 extends BookManager {
             System.out.print(book.getIsbn());
             System.out.print(", ");
             System.out.print(book.getPublishedDate());
-            System.out.print(", ");
-            System.out.print(book.getPublishedDate());
             if (book.getBookType() == 2 ){
                 System.out.print(", ");
                 System.out.print(((EBook)book).getFilesize());
