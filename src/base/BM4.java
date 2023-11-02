@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 // BookManager를 구현하는 구현 객체
-public class BM3 extends BookManager {
+public class BM4 extends BookManager {
 
     private ArrayList<Book> bookList = new ArrayList<>();
     static Scanner sc = new Scanner(System.in);

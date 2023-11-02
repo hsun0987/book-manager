@@ -12,9 +12,9 @@ public class BM extends BookManager {
 
     @Override
     void init() {
-        bookList.add(new Book(1L, "돈의 속성(300쇄 리커버에디션)", "김승호", Long.parseLong("9791188331796"), LocalDate.parse("2020-06-15"),1));
-        bookList.add(new Book(2L,"K 배터리 레볼루션", "박순혁", Long.parseLong("9791191521221"), LocalDate.parse("2023-02-20"),1));
-        bookList.add(new Book(3L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19"),1));
+        bookList.add(new Book(1L, "돈의 속성(300쇄 리커버에디션)", "김승호", Long.parseLong("9791188331796"), LocalDate.parse("2020-06-15")));
+        bookList.add(new Book(2L,"K 배터리 레볼루션", "박순혁", Long.parseLong("9791191521221"), LocalDate.parse("2023-02-20")));
+        bookList.add(new Book(3L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
     }
 
     @Override
@@ -81,8 +81,7 @@ public class BM extends BookManager {
                 bookInfo[1],
                 bookInfo[2],
                 Long.parseLong(bookInfo[3]),
-                LocalDate.parse(bookInfo[4]),
-                1);
+                LocalDate.parse(bookInfo[4]));
         bookList.add(book);
     }
 

@@ -9,18 +9,31 @@ public class Book {
     private Long isbn;
     private LocalDate publishedDate;
 
-    private int bookType;
 
-    public Book(Long id, String name, String author, Long isbn, LocalDate publishedDate,int bookType) {
+    public Book(Long id, String name, String author, Long isbn, LocalDate publishedDate) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.isbn = isbn;
         this.publishedDate = publishedDate;
-        this.bookType = bookType;
     }
 
     public Book() { }
+/*
+    public boolean equals(Object obj){
+        if (obj instanceof Object){
+            Book b = (Book)obj;
+
+            for (int i = 0; i<){
+
+            }
+            if (name.equals(b.name)){
+                return true;
+            }
+        }
+        return false;
+    }*/
+
 
     public Long getId() {
         return id;
@@ -59,10 +72,5 @@ public class Book {
     public void setPublishedDate(LocalDate publishedDate) {
         this.publishedDate = publishedDate;
     }
-
-    public int getBookType() { return bookType; }
-
-    public void setBookType(int bookType) { this.bookType = bookType; }
-
 
 }
