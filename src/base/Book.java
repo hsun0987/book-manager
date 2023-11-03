@@ -1,6 +1,7 @@
 package base;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Book {
     private Long id;
@@ -19,21 +20,28 @@ public class Book {
     }
 
     public Book() { }
-/*
-    public boolean equals(Object obj){
-        if (obj instanceof Object){
-            Book b = (Book)obj;
 
-            for (int i = 0; i<){
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Book book = (Book) object;
+        return Objects.equals(id, book.id) && Objects.equals(name, book.name) && Objects.equals(author, book.author) && Objects.equals(isbn, book.isbn) && Objects.equals(publishedDate, book.publishedDate);
+    }
 
-            }
-            if (name.equals(b.name)){
-                return true;
-            }
-        }
-        return false;
-    }*/
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, author, isbn, publishedDate);
+    }
 
+    @Override
+    public String toString() {
+        return  id +
+                ", '" + name + '\'' +
+                ", '" + author + '\'' +
+                ", " + isbn +
+                ", " + publishedDate;
+    }
 
     public Long getId() {
         return id;

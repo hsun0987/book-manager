@@ -1,6 +1,7 @@
 package base;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class AudioBook extends Book{
     String filesize;
@@ -12,6 +13,23 @@ public class AudioBook extends Book{
         this.filesize = filesize;
         this.language = language;
         this.playTime = playTime;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        if (!super.equals(object)) return false;
+        AudioBook audioBook = (AudioBook) object;
+        return playTime == audioBook.playTime && Objects.equals(filesize, audioBook.filesize) && Objects.equals(language, audioBook.language);
+    }
+
+    @Override
+    public String toString() {
+        return  super.toString() +
+                ", " + filesize +
+                ", '" + language + '\'' +
+                ", " + playTime;
     }
 
     public String getFilesize() {
