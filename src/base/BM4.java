@@ -9,8 +9,8 @@ public class BM4 extends BookManager {
     // private ArrayList<Book> bookList = new ArrayList<>();
 
     // HashMap 이용
-    private HashMap<Long, Book> bookHashMap = new HashMap<Long, Book>();
-    Set<Long> ids = bookHashMap.keySet();
+    private HashMap<Long, Book> hashMapBook = new HashMap<Long, Book>();
+    Set<Long> ids = hashMapBook.keySet();
     Iterator<Long> it;
 
     static Scanner sc = new Scanner(System.in);
@@ -21,10 +21,10 @@ public class BM4 extends BookManager {
        // bookList.add(new Book(2L,"K 배터리 레볼루션", "박순혁", Long.parseLong("9791191521221"), LocalDate.parse("2023-02-20")));
        // bookList.add(new Book(3L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
 
-        bookHashMap.put(1L,new Book(1L, "돈의 속성(300쇄 리커버에디션)", "김승호", Long.parseLong("9791188331796"), LocalDate.parse("2020-06-15")));
-        bookHashMap.put(2L,new Book(2L,"K 배터리 레볼루션", "박순혁", Long.parseLong("9791191521221"), LocalDate.parse("2023-02-20")));
-        bookHashMap.put(3L,new Book(3L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
-        bookHashMap.put(4L,new Book(4L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
+        hashMapBook.put(1L,new Book(1L, "돈의 속성(300쇄 리커버에디션)", "김승호", Long.parseLong("9791188331796"), LocalDate.parse("2020-06-15")));
+        hashMapBook.put(2L,new Book(2L,"K 배터리 레볼루션", "박순혁", Long.parseLong("9791191521221"), LocalDate.parse("2023-02-20")));
+        hashMapBook.put(3L,new Book(3L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
+        hashMapBook.put(4L,new Book(4L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
     }
 
     @Override
@@ -105,7 +105,7 @@ public class BM4 extends BookManager {
 
         while (it.hasNext()){
             Long id = it.next();
-            System.out.println(bookHashMap.get(id).toString());     // .toString() 생략 가능
+            System.out.println(hashMapBook.get(id).toString());     // .toString() 생략 가능
         }
         /* ArrayList
         for (Book book : bookList) {
@@ -122,8 +122,8 @@ public class BM4 extends BookManager {
         it = ids.iterator();
         while (it.hasNext()){
             Long id = it.next();
-            if(bookName.equals(bookHashMap.get(id).getName())){
-                System.out.println(bookHashMap.get(id).toString());
+            if(bookName.equals(hashMapBook.get(id).getName())){
+                System.out.println(hashMapBook.get(id).toString());
             }
         }
         /* ArrayList
@@ -147,9 +147,9 @@ public class BM4 extends BookManager {
     public void bookNameSort(){
 
         // key , value
-        // bookHashMap.values() => list
+        // hashMapBook.values() => list
 
-        ArrayList<Book> sortedList = new ArrayList<>(bookHashMap.values());
+        ArrayList<Book> sortedList = new ArrayList<>(hashMapBook.values());
         Collections.sort(sortedList, new NameComparator());
 
         sortedList.stream().forEach(book -> {
@@ -167,8 +167,8 @@ public class BM4 extends BookManager {
         it = ids.iterator();
         while (it.hasNext()){
             Long id = it.next();
-            if(bookHashMap.get(id).getPublishedDate().isAfter(LocalDate.parse(start))  &&  bookHashMap.get(id).getPublishedDate().isBefore(LocalDate.parse(end))){
-                System.out.println(bookHashMap.get(id).toString());
+            if(hashMapBook.get(id).getPublishedDate().isAfter(LocalDate.parse(start))  &&  hashMapBook.get(id).getPublishedDate().isBefore(LocalDate.parse(end))){
+                System.out.println(hashMapBook.get(id).toString());
             }
         }
         /* ArrayList
@@ -189,7 +189,7 @@ public class BM4 extends BookManager {
         }
     }
     public void dateSort(){
-        ArrayList<Book> sortedList = new ArrayList<>(bookHashMap.values());
+        ArrayList<Book> sortedList = new ArrayList<>(hashMapBook.values());
         Collections.sort(sortedList, new DateComparator());
 
         sortedList.stream().forEach(book -> {
@@ -206,7 +206,7 @@ public class BM4 extends BookManager {
                 if (findBook(id).hashCode() == findBook(id2).hashCode()) {
                     if ((findBook(id).getName()).equals(findBook(id2).getName()) && (findBook(id).getAuthor()).equals(findBook(id2).getAuthor()) &&
                             (findBook(id).getIsbn()).equals(findBook(id2).getIsbn())){
-                        System.out.println(bookHashMap.get(id).toString());
+                        System.out.println(hashMapBook.get(id).toString());
                         count ++;
                     }
                 }
@@ -246,7 +246,7 @@ public class BM4 extends BookManager {
 
             if (bookType == 1) {
                 // book을 저장소에 저장
-                bookHashMap.put(Long.parseLong(bookInfo[0]), new Book(Long.parseLong(bookInfo[0]),
+                hashMapBook.put(Long.parseLong(bookInfo[0]), new Book(Long.parseLong(bookInfo[0]),
                         bookInfo[1],
                         bookInfo[2],
                         Long.parseLong(bookInfo[3]),
@@ -255,7 +255,7 @@ public class BM4 extends BookManager {
                 // ebook을 저장소에 저장
                 System.out.print("파일 크기: ");
                 bookInfo[5] = sc.nextLine();
-                bookHashMap.put(Long.parseLong(bookInfo[0]), new EBook(Long.parseLong(bookInfo[0]),
+                hashMapBook.put(Long.parseLong(bookInfo[0]), new EBook(Long.parseLong(bookInfo[0]),
                         bookInfo[1],
                         bookInfo[2],
                         Long.parseLong(bookInfo[3]),
@@ -270,7 +270,7 @@ public class BM4 extends BookManager {
                 System.out.print("실행시간: ");
                 bookInfo[7] = sc.nextLine();
 
-                bookHashMap.put(Long.parseLong(bookInfo[0]), new AudioBook(Long.parseLong(bookInfo[0]),
+                hashMapBook.put(Long.parseLong(bookInfo[0]), new AudioBook(Long.parseLong(bookInfo[0]),
                         bookInfo[1],
                         bookInfo[2],
                         Long.parseLong(bookInfo[3]),
@@ -362,7 +362,7 @@ public class BM4 extends BookManager {
         if (book == null) {
             System.out.println("입력하신 책을 찾을 수 없습니다.");
         }
-        bookHashMap.remove(Long.parseLong(id));
+        hashMapBook.remove(Long.parseLong(id));
     }
 
     public Book findBook(long id) {
@@ -370,7 +370,7 @@ public class BM4 extends BookManager {
         while (it.hasNext()){
             Long i = it.next();
             if (id == i) {
-                return bookHashMap.get(id);
+                return hashMapBook.get(id);
             }
         }
 

@@ -3,18 +3,34 @@ package base;
 import java.time.LocalDate;
 import java.util.*;
 
+import base.repository.BookRepository;
+import base.repository.BookRepository.*;
+import base.repository.HashMapBook;
+import base.Book;
 
 // BookManager를 구현하는 구현 객체
-public class BM3 extends BookManager {
+public class BM5 extends BookManager {
 
-    private ArrayList<Book> bookList = new ArrayList<>();
+    // private ArrayList<Book> bookList = new ArrayList<>();
+
+    // HashMap 이용
+    private HashMap<Long, Book> hashMapBook = new HashMap<Long, Book>();
+    private BookRepository books = new HashMapBook();
+    Set<Long> ids = hashMapBook.keySet();
+    Iterator<Long> it;
+
     static Scanner sc = new Scanner(System.in);
 
     @Override
     void init() {
-        bookList.add(new Book(1L, "돈의 속성(300쇄 리커버에디션)", "김승호", Long.parseLong("9791188331796"), LocalDate.parse("2020-06-15")));
-        bookList.add(new Book(2L,"K 배터리 레볼루션", "박순혁", Long.parseLong("9791191521221"), LocalDate.parse("2023-02-20")));
-        bookList.add(new Book(3L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
+        // bookList.add(new Book(1L, "돈의 속성(300쇄 리커버에디션)", "김승호", Long.parseLong("9791188331796"), LocalDate.parse("2020-06-15")));
+        // bookList.add(new Book(2L,"K 배터리 레볼루션", "박순혁", Long.parseLong("9791191521221"), LocalDate.parse("2023-02-20")));
+        // bookList.add(new Book(3L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
+
+        hashMapBook.put(1L,new Book(1L, "돈의 속성(300쇄 리커버에디션)", "김승호", Long.parseLong("9791188331796"), LocalDate.parse("2020-06-15")));
+        hashMapBook.put(2L,new Book(2L,"K 배터리 레볼루션", "박순혁", Long.parseLong("9791191521221"), LocalDate.parse("2023-02-20")));
+        hashMapBook.put(3L,new Book(3L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
+        hashMapBook.put(4L,new Book(4L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
     }
 
     @Override
@@ -38,6 +54,7 @@ public class BM3 extends BookManager {
                     System.out.println("3. 책 제목순 정렬");
                     System.out.println("4. 출간일 기간 조회");
                     System.out.println("5. 출간일 기간순 정렬");
+                    System.out.println("6. 중복 책 찾기");
                     System.out.print("선택 >> ");
                     String op = sc.nextLine();
 
@@ -56,6 +73,9 @@ public class BM3 extends BookManager {
                             break;
                         case "5":
                             dateSort();
+                            break;
+                        case "6":
+                            dupBook();
                             break;
                     }
                     break;
@@ -83,7 +103,125 @@ public class BM3 extends BookManager {
         }
     }
 
+    //(1) 도서 조회
+    // 1.전체 조회
     @Override
+    public void printAllBook() {
+        it = ids.iterator();
+
+        while (it.hasNext()){
+            Long id = it.next();
+            System.out.println(hashMapBook.get(id).toString());     // .toString() 생략 가능
+        }
+        /* ArrayList
+        for (Book book : bookList) {
+            System.out.println(book.toString());
+            // 동적 바인딩으로 인해 EBook과 AudioBook의 toString()을 따로 접근할 필요X
+        }*/
+    }
+
+    // 2.책 제목 조회
+    public void printBookName(){
+        System.out.print("책 제목 : ");
+        String bookName = sc.nextLine();
+
+        it = ids.iterator();
+        while (it.hasNext()){
+            Long id = it.next();
+            if(bookName.equals(hashMapBook.get(id).getName())){
+                System.out.println(hashMapBook.get(id).toString());
+            }
+        }
+        /* ArrayList
+        for (Book book : bookList) {
+            if(bookName.equals(book.getName())){
+                System.out.println(book.toString());
+            }
+        }*/
+    }
+
+    // 3.책 제목순 정렬
+    class NameComparator implements Comparator<Book> {  // Comparator -> 함수형 인터페이스 !!
+        @Override
+        public int compare(Book o1, Book o2) {
+            if (o1.getName().compareTo(o2.getName()) > 0) return 1;
+            if (o1.getName().compareTo(o2.getName()) < 0) return -1;
+            return 0;
+        }
+    }
+
+    public void bookNameSort(){
+
+        // key , value
+        // hashMapBook.values() => list
+
+        ArrayList<Book> sortedList = new ArrayList<>(hashMapBook.values());
+        Collections.sort(sortedList, new NameComparator());
+
+        sortedList.stream().forEach(book -> {
+            System.out.println(book);
+        });
+    }
+
+    // 4.출간일 기간 조회
+    public void printPublishedDate(){
+        System.out.print("조회 시작일 : ");
+        String start = sc.nextLine();
+        System.out.print("조회 종료일 : ");
+        String end = sc.nextLine();
+
+        it = ids.iterator();
+        while (it.hasNext()){
+            Long id = it.next();
+            if(hashMapBook.get(id).getPublishedDate().isAfter(LocalDate.parse(start))  &&  hashMapBook.get(id).getPublishedDate().isBefore(LocalDate.parse(end))){
+                System.out.println(hashMapBook.get(id).toString());
+            }
+        }
+        /* ArrayList
+        for (Book book : bookList) {
+            if(book.getPublishedDate().isAfter(LocalDate.parse(start))  &&  book.getPublishedDate().isBefore(LocalDate.parse(end))){
+                System.out.println(book.toString());
+            }
+        }*/
+    }
+
+    // 5.출간일 기간순 정렬
+    class DateComparator implements Comparator<Book> {
+        @Override
+        public int compare(Book o1, Book o2) {
+            if (o1.getPublishedDate().isAfter(o2.getPublishedDate())) return 1;
+            if (o1.getPublishedDate().isBefore(o2.getPublishedDate())) return -1;
+            return 0;
+        }
+    }
+    public void dateSort(){
+        ArrayList<Book> sortedList = new ArrayList<>(hashMapBook.values());
+        Collections.sort(sortedList, new DateComparator());
+
+        sortedList.stream().forEach(book -> {
+            System.out.println(book);
+        });
+    }
+
+    // 6. 중복 책 찾기
+    public void dupBook(){
+        int count = 0;
+        for (Long id : ids)  {
+            for (Long id2 : ids) {
+                if (id == id2) continue;
+                if (findBook(id).hashCode() == findBook(id2).hashCode()) {
+                    if ((findBook(id).getName()).equals(findBook(id2).getName()) && (findBook(id).getAuthor()).equals(findBook(id2).getAuthor()) &&
+                            (findBook(id).getIsbn()).equals(findBook(id2).getIsbn())){
+                        System.out.println(hashMapBook.get(id).toString());
+                        count ++;
+                    }
+                }
+            }
+        }
+        System.out.println(count + "개의 책이 중복되었습니다.");
+    }
+
+    //(2) 도서 등록
     public void addBook() {
         try {
             System.out.println("등록 메서드 실행");
@@ -119,7 +257,7 @@ public class BM3 extends BookManager {
                         bookInfo[2],
                         Long.parseLong(bookInfo[3]),
                         LocalDate.parse(bookInfo[4]));
-                bookList.add(book);
+                books.addBook(book);
             } else if (bookType == 2) {
                 // ebook을 저장소에 저장
                 System.out.print("파일 크기: ");
@@ -130,7 +268,7 @@ public class BM3 extends BookManager {
                         Long.parseLong(bookInfo[3]),
                         LocalDate.parse(bookInfo[4]),
                         bookInfo[5]);
-                bookList.add(eBook);
+                books.addBook(eBook);
             } else if (bookType == 3) {
                 // audiobook을 저장소에 저장
                 System.out.print("파일 크기: ");
@@ -148,7 +286,7 @@ public class BM3 extends BookManager {
                         bookInfo[5],
                         bookInfo[6],
                         Integer.parseInt(bookInfo[7]));
-                bookList.add(audioBook);
+                books.addBook(audioBook);
             }else
                 System.out.print("책 종류에 해당하지 않습니다.");
         }catch (Exception e){
@@ -156,127 +294,7 @@ public class BM3 extends BookManager {
         }
     }
 
-    @Override
-    public void printAllBook() {
-        for (Book book : bookList) {
-            System.out.print("[");
-            System.out.print(book.getId());
-            System.out.print(", ");
-            System.out.print(book.getName());
-            System.out.print(", ");
-            System.out.print(book.getAuthor());
-            System.out.print(", ");
-            System.out.print(book.getIsbn());
-            System.out.print(", ");
-            System.out.print(book.getPublishedDate());
-            if (book instanceof EBook){
-                System.out.print(((EBook)book).getFilesize());
-            }
-            if(book instanceof AudioBook){
-                System.out.print(((AudioBook)book).getFilesize());
-                System.out.print(", ");
-                System.out.print(((AudioBook)book).getLanguage());
-                System.out.print(", ");
-                System.out.print(((AudioBook)book).getPlayTime());
-            }
-            System.out.print("]");
-            System.out.println();
-        }
-    }
-
-    public void printBookName(){
-        System.out.print("책 제목 : ");
-        String bookName = sc.nextLine();
-        for (Book book : bookList) {
-            if(bookName.equals(book.getName())){
-                System.out.print("[");
-                System.out.print(book.getId());
-                System.out.print(", ");
-                System.out.print(book.getName());
-                System.out.print(", ");
-                System.out.print(book.getAuthor());
-                System.out.print(", ");
-                System.out.print(book.getIsbn());
-                System.out.print(", ");
-                System.out.print(book.getPublishedDate());
-                if (book instanceof EBook){
-                    System.out.print(((EBook)book).getFilesize());
-                }
-                if(book instanceof AudioBook){
-                    System.out.print(((AudioBook)book).getFilesize());
-                    System.out.print(", ");
-                    System.out.print(((AudioBook)book).getLanguage());
-                    System.out.print(", ");
-                    System.out.print(((AudioBook)book).getPlayTime());
-                }
-                System.out.print("]");
-                System.out.println();
-            }
-        }
-    }
-
-    class NameComparator implements Comparator<Book> {
-        @Override
-        public int compare(Book o1, Book o2) {
-            if (o1.getName().compareTo(o2.getName()) > 0) return 1;
-            if (o1.getName().compareTo(o2.getName()) < 0) return -1;
-            return 0;
-        }
-    }
-
-    public void bookNameSort(){
-        Collections.sort(bookList, new NameComparator());
-        printAllBook();
-    }
-
-
-    class DateComparator implements Comparator<Book> {
-        @Override
-        public int compare(Book o1, Book o2) {
-            if (o1.getPublishedDate().isAfter(o2.getPublishedDate())) return 1;
-            if (o1.getPublishedDate().isBefore(o2.getPublishedDate())) return -1;
-            return 0;
-        }
-    }
-    public void dateSort(){ // 출간일 정렬
-        Collections.sort(bookList, new DateComparator());
-        printAllBook();
-    }
-
-    public void printPublishedDate(){
-        System.out.print("조회 시작일 : ");
-        String start = sc.nextLine();
-        System.out.print("조회 종료일 : ");
-        String end = sc.nextLine();
-
-        for (Book book : bookList) {
-            if(book.getPublishedDate().isAfter(LocalDate.parse(start))  &&  book.getPublishedDate().isBefore(LocalDate.parse(end))){
-                System.out.print("[");
-                System.out.print(book.getId());
-                System.out.print(", ");
-                System.out.print(book.getName());
-                System.out.print(", ");
-                System.out.print(book.getAuthor());
-                System.out.print(", ");
-                System.out.print(book.getIsbn());
-                System.out.print(", ");
-                System.out.print(book.getPublishedDate());
-                if (book instanceof EBook){
-                    System.out.print(((EBook)book).getFilesize());
-                }
-                if(book instanceof AudioBook){
-                    System.out.print(((AudioBook)book).getFilesize());
-                    System.out.print(", ");
-                    System.out.print(((AudioBook)book).getLanguage());
-                    System.out.print(", ");
-                    System.out.print(((AudioBook)book).getPlayTime());
-                }
-                System.out.print("]");
-                System.out.println();
-            }
-        }
-    }
-
+    //(3) 도서 수정
     @Override
     public void updateBook() {
         try{
@@ -337,6 +355,7 @@ public class BM3 extends BookManager {
         }
     }
 
+    //(4) 도서 삭제
     @Override
     public void removeBook() {
         System.out.println("삭제 메서드 실행");
@@ -352,15 +371,18 @@ public class BM3 extends BookManager {
         if (book == null) {
             System.out.println("입력하신 책을 찾을 수 없습니다.");
         }
-        bookList.remove(book);
+        books.removeBook(Long.parseLong(id));
     }
 
     public Book findBook(long id) {
-        for (Book book : bookList) {
-            if (id == book.getId()) {
-                return book;
+        it = ids.iterator();
+        while (it.hasNext()){
+            Long i = it.next();
+            if (id == i) {
+                return hashMapBook.get(id);
             }
         }
+
         // bookList를 다 돌았는데 해당 id의 도서를 못찾았다.
         return null;
     }
