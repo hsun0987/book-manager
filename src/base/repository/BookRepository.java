@@ -9,9 +9,9 @@ import java.util.function.Predicate;
 public interface BookRepository {
     void addBook(Book book);
     Book getBook(Long id);
-    List<Book> gethashMapBook();
-    List<Book> gethashMapBook(Predicate<Book> predicate);
-    List<Book> gethashMapBook(Comparator<Book> comparator);
+    List<Book> getBooks();
+    List<Book> getBooks(Predicate<Book> predicate);
+    List<Book> getBooks(Comparator<Book> comparator);
     boolean setBook(Book book);
     boolean removeBook(Long id);
 }

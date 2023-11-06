@@ -14,12 +14,10 @@ public class HashMapBook implements BookRepository{
     void addBook(Book book){
         books.put(book.getId(), book);
     }
-    Book getBook(Long id){
-
-    }
-    List<Book> gethashMapBook();
-    List<Book> gethashMapBook(Predicate<Book> predicate);
-    List<Book> gethashMapBook(Comparator<Book> comparator);
+    Book getBook(Long id){ return books.get(id); }
+    List<Book> getBooks(){ return new ArrayList<>(books.values()); }
+    List<Book> getBooks(Predicate<Book> predicate);
+    List<Book> getBooks(Comparator<Book> comparator);
     boolean setBook(Book book);
     boolean removeBook(Long id){
         books.remove(books);
