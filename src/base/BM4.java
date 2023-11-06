@@ -24,6 +24,7 @@ public class BM4 extends BookManager {
         bookHashMap.put(1L,new Book(1L, "돈의 속성(300쇄 리커버에디션)", "김승호", Long.parseLong("9791188331796"), LocalDate.parse("2020-06-15")));
         bookHashMap.put(2L,new Book(2L,"K 배터리 레볼루션", "박순혁", Long.parseLong("9791191521221"), LocalDate.parse("2023-02-20")));
         bookHashMap.put(3L,new Book(3L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
+        bookHashMap.put(4L,new Book(4L, "위기의 역사", "오건영", Long.parseLong("9791169850360"), LocalDate.parse("2023-07-19")));
     }
 
     @Override
@@ -47,6 +48,7 @@ public class BM4 extends BookManager {
                     System.out.println("3. 책 제목순 정렬");
                     System.out.println("4. 출간일 기간 조회");
                     System.out.println("5. 출간일 기간순 정렬");
+                    System.out.println("6. 중복 책 찾기");
                     System.out.print("선택 >> ");
                     String op = sc.nextLine();
 
@@ -65,6 +67,9 @@ public class BM4 extends BookManager {
                             break;
                         case "5":
                             dateSort();
+                            break;
+                        case "6":
+                            dupBook();
                             break;
                     }
                     break;
@@ -100,7 +105,7 @@ public class BM4 extends BookManager {
 
         while (it.hasNext()){
             Long id = it.next();
-            System.out.println(bookHashMap.get(id).toString());
+            System.out.println(bookHashMap.get(id).toString());     // .toString() 생략 가능
         }
         /* ArrayList
         for (Book book : bookList) {
@@ -190,6 +195,24 @@ public class BM4 extends BookManager {
         sortedList.stream().forEach(book -> {
             System.out.println(book);
         });
+    }
+
+    // 6. 중복 책 찾기
+    public void dupBook(){
+        int count = 0;
+        for (Long id : ids)  {
+            for (Long id2 : ids) {
+                if (id == id2) continue;
+                if (findBook(id).hashCode() == findBook(id2).hashCode()) {
+                    if ((findBook(id).getName()).equals(findBook(id2).getName()) && (findBook(id).getAuthor()).equals(findBook(id2).getAuthor()) &&
+                            (findBook(id).getIsbn()).equals(findBook(id2).getIsbn())){
+                        System.out.println(bookHashMap.get(id).toString());
+                        count ++;
+                    }
+                }
+            }
+        }
+        System.out.println(count + "개의 책이 중복되었습니다.");
     }
 
     //(2) 도서 등록

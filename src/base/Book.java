@@ -23,6 +23,7 @@ public class Book {
 
     @Override
     public boolean equals(Object object) {
+        // instanceof : 객체 타입 확인
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Book book = (Book) object;
@@ -31,7 +32,7 @@ public class Book {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, author, isbn, publishedDate);
+        return Objects.hash(name, author, isbn);
     }
 
     @Override
