@@ -10,13 +10,7 @@ import base.Book;
 
 // BookManager를 구현하는 구현 객체
 public class BM5 extends BookManager {
-
-    // HashMap 이용
-    // private HashMap<Long, Book> hashMapBook = new HashMap<Long, Book>();
     private BookRepository books = new HashMapBook();
-    Set<Long> ids = books.getBooks().keySet();
-    Iterator<Long> it;
-
     static Scanner sc = new Scanner(System.in);
 
     @Override
@@ -101,8 +95,8 @@ public class BM5 extends BookManager {
     // 1.전체 조회
     @Override
     public void printAllBook() {
-        for (Long id : ids) {
-            System.out.println(books.getBook(id));
+        for (Book book : books.getBooks()) {
+            System.out.println(book);
         }
     }
 
@@ -111,9 +105,9 @@ public class BM5 extends BookManager {
         System.out.print("책 제목 : ");
         String bookName = sc.nextLine();
 
-        for (Long id : ids) {
-            if(bookName.equals(books.getBook(id).getName())) {
-                System.out.println(books.getBook(id));
+        for (Book book : books.getBooks()) {
+            if(bookName.equals(book.getName())) {
+                System.out.println(book);
             }
         }
     }
@@ -148,11 +142,9 @@ public class BM5 extends BookManager {
         System.out.print("조회 종료일 : ");
         String end = sc.nextLine();
 
-        it = ids.iterator();
-        while (it.hasNext()){
-            Long id = it.next();
-            if(books.getBook(id).getPublishedDate().isAfter(LocalDate.parse(start))  &&  books.getBook(id).getPublishedDate().isBefore(LocalDate.parse(end))){
-                System.out.println(books.getBook(id).toString());
+        for (Book book : books.getBooks()) {
+            if(book.getPublishedDate().isAfter(LocalDate.parse(start))  &&  book.getPublishedDate().isBefore(LocalDate.parse(end))) {
+                System.out.println(book);
             }
         }
     }
@@ -178,13 +170,13 @@ public class BM5 extends BookManager {
     // 6. 중복 책 찾기
     public void dupBook(){
         int count = 0;
-        for (Long id : ids)  {
-            for (Long id2 : ids) {
-                if (id == id2) continue;
-                if (findBook(id).hashCode() == findBook(id2).hashCode()) {
-                    if ((findBook(id).getName()).equals(findBook(id2).getName()) && (findBook(id).getAuthor()).equals(findBook(id2).getAuthor()) &&
-                            (findBook(id).getIsbn()).equals(findBook(id2).getIsbn())){
-                        System.out.println(books.getBook(id).toString());
+        for (Book book : books.getBooks())  {
+            for (Book book2 : books.getBooks()) {
+                if (book.getId() == book2.getId()) continue;
+                if (book.hashCode() == book2.hashCode()) {
+                    if ((book.getName()).equals(book2.getName()) && (book.getAuthor()).equals(book2.getAuthor()) &&
+                            (book.getIsbn()).equals(book2.getIsbn())){
+                        System.out.println(book);
                         count ++;
                     }
                 }
@@ -343,18 +335,15 @@ public class BM5 extends BookManager {
         if (book == null) {
             System.out.println("입력하신 책을 찾을 수 없습니다.");
         }
-        books.removeBook(Long.parseLong(id));
+        books.removeBook(book);
     }
 
     public Book findBook(long id) {
-        it = ids.iterator();
-        while (it.hasNext()){
-            Long i = it.next();
-            if (id == i) {
-                return books.getBook(id);
+        for (Book book : books.getBooks()) {
+            if (id == book.getId()) {
+                return book;
             }
         }
-
         // bookList를 다 돌았는데 해당 id의 도서를 못찾았다.
         return null;
     }
