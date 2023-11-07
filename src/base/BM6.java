@@ -10,7 +10,7 @@ import base.repository.HashMapBook;
 import base.Book;
 
 // BookManager를 구현하는 구현 객체
-public class BM5 extends BookManager {
+public class BM6 extends BookManager {
     private BookRepository books = new HashMapBook();
     static Scanner sc = new Scanner(System.in);
 
@@ -23,7 +23,14 @@ public class BM5 extends BookManager {
     }
 
     @Override
-    void interactWithUser() {
+    void interactWithUser() throws IOException {
+        System.out.println("■■■■■■ 최근 저장된 도서 목록 ■■■■■■");
+        fileLoad();
+        System.out.println(" ");
+        backupThread thread = new backupThread();
+        thread.setDaemon(true);
+        thread.start();
+
         while (true) {
             System.out.println("■■■■■■ 도서 관리 프로그램 ■■■■■■");
             System.out.println("(1) 도서 조회");
@@ -50,6 +57,7 @@ public class BM5 extends BookManager {
                     switch (op){
                         case "1":
                             printAllBook();
+                            fileSave();
                             break;
                         case "2":
                             printBookName();
@@ -71,17 +79,17 @@ public class BM5 extends BookManager {
                 case "2":
                     // 등록
                     addBook();
+                    fileSave();
                     break;
                 case "3":
                     // 수정
                     updateBook();
+                    fileSave();
                     break;
                 case "4":
                     // 삭제
                     removeBook();
-                    break;
-                case "5":
-                    printBookName();
+                    fileSave();
                     break;
                 case "q":
                     // 메소드를 종료
@@ -347,5 +355,70 @@ public class BM5 extends BookManager {
         }
         // bookList를 다 돌았는데 해당 id의 도서를 못찾았다.
         return null;
+    }
+
+    public void fileSave() {     // output 출력
+        try {
+            File list = new File("src/base/books.txt");
+            FileWriter writer = new FileWriter(list);
+
+            List<Book> bookList = books.getBooks();
+            for (Book book : bookList){
+                writer.write(book.toString());
+                writer.write("\n");
+            }
+            writer.close();
+        }catch (IOException e){
+            System.out.print("입출력 오류");
+        }
+    }
+
+    public void fileLoad() throws IOException{     // input 입력
+        try {
+            File list = new File("src/base/books.txt");
+            FileReader reader = new FileReader(list);
+
+            int c;
+            while ((c = reader.read()) != -1){
+                System.out.print((char) c);
+            }
+            reader.close();
+
+        }catch (IOException e){
+            System.out.print("입출력 오류");
+        }
+    }
+
+    public static void fileBackup(){
+        File file = new File("src/base/books.txt");
+        File copy = new File("src/base/booksBackup.txt");
+
+        try {
+            int c;
+            FileReader fr = new FileReader(file);
+            FileWriter fw = new FileWriter(copy);
+            while ((c = fr.read()) != -1){
+                fw.write((char) c);
+            }
+            fr.close();
+            fw.close();
+
+        }catch (IOException e){
+            System.out.println("파일 복사 오류");
+        }
+    }
+
+    public static class backupThread extends Thread {
+        @Override
+        public void run() {
+            while(true) {
+                try{
+                    Thread.sleep(10000);
+                    fileBackup();
+                }catch (InterruptedException e){
+                    return;
+                }
+            }
+        }
     }
 }
