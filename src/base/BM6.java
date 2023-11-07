@@ -373,14 +373,21 @@ public class BM6 extends BookManager {
         }
     }
 
-    public void fileLoad() throws IOException{     // input 입력
+    public void fileLoad() {     // input 입력
         try {
             File list = new File("src/base/books.txt");
             FileReader reader = new FileReader(list);
 
+            DataInputStream dis = new DataInputStream(reader.read());
             int c;
             while ((c = reader.read()) != -1){
                 System.out.print((char) c);
+                String str = "1, '돈의 속성(300쇄 리커버에디션)', '김승호', 9791188331796, 2020-06-15";
+                str.split(",");
+
+                // 파싱
+                //
+
             }
             reader.close();
 

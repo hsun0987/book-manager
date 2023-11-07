@@ -3,7 +3,6 @@ package base;
 import java.time.LocalDate;
 import java.util.*;
 
-
 // BookManager를 구현하는 구현 객체
 public class BM3 extends BookManager {
 
@@ -79,7 +78,6 @@ public class BM3 extends BookManager {
                     System.out.println("프로그램 종료!");
                     return;
             }
-
         }
     }
 
