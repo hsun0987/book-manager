@@ -1,6 +1,8 @@
 package base;
 
+import java.awt.desktop.SystemSleepEvent;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -376,17 +378,20 @@ public class BM6 extends BookManager {
     public void fileLoad() {     // input 입력
         try {
             File list = new File("src/base/books.txt");
-            FileReader reader = new FileReader(list);
+            FileReader reader = new FileReader(list, StandardCharsets.UTF_8);
+            BufferedReader br = new BufferedReader(reader);
 
-            DataInputStream dis = new DataInputStream(reader.read());
-            int c;
-            while ((c = reader.read()) != -1){
-                System.out.print((char) c);
-                String str = "1, '돈의 속성(300쇄 리커버에디션)', '김승호', 9791188331796, 2020-06-15";
-                str.split(",");
+            String str;
+            while ((str = br.readLine()) != null){
+                String[] str2 = str.split(",");
+                System.out.println(str);
 
-                // 파싱
-                //
+                if (str2.length == 5)
+                 books.addBook(new Book(Long.parseLong(str2[0].trim()),  str2[1],  str2[2],  Long.parseLong(str2[3].trim()),  LocalDate.parse(str2[4].trim())));
+                else if (str2.length == 6)
+                    books.addBook(new EBook(Long.parseLong(str2[0].trim()),  str2[1],  str2[2],  Long.parseLong(str2[3].trim()),  LocalDate.parse(str2[4].trim()), str2[5]));
+                else
+                    books.addBook(new AudioBook(Long.parseLong(str2[0].trim()),  str2[1],  str2[2],  Long.parseLong(str2[3].trim()),  LocalDate.parse(str2[4].trim()), str2[5], str2[6], Integer.parseInt(str2[7])));
 
             }
             reader.close();

@@ -38,10 +38,10 @@ public class Book {
     @Override
     public String toString() {
         return  id +
-                ", '" + name + '\'' +
-                ", '" + author + '\'' +
-                ", " + isbn +
-                ", " + publishedDate;
+                "," + name  +
+                "," + author +
+                "," + isbn +
+                "," + publishedDate;
     }
 
     public Long getId() {

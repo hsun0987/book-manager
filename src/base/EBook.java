@@ -23,7 +23,7 @@ public class EBook extends Book{
     @Override
     public String toString() {
         return  super.toString() +
-                ", " + filesize;
+                "," + filesize;
     }
 
     public String getFilesize() {
